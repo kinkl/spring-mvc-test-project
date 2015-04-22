@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.springapp.persistance"/>
+
+    <jee:jndi-lookup id="defaultKittenName" expected-type="java.lang.String" jndi-name="java:comp/env/defaultKittenName"/>
+
+    <jee:jndi-lookup id="jdbcDriverClassName" expected-type="java.lang.String" jndi-name="java:comp/env/jdbcDriverClassName"/>
+
+    <jee:jndi-lookup id="dbUrl" expected-type="java.lang.String" jndi-name="java:comp/env/dbUrl"/>
+
+    <jee:jndi-lookup id="dbUsername" expected-type="java.lang.String" jndi-name="java:comp/env/dbUsername"/>
+
+    <jee:jndi-lookup id="dbUserpass" expected-type="java.lang.String" jndi-name="java:comp/env/dbUserpass"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" ref="jdbcDriverClassName"/>
+        <property name="url" ref="dbUrl"/>
+        <property name="username" ref="dbUsername"/>
+        <property name="password" ref="dbUserpass"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+</beans>
