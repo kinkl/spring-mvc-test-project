@@ -22,6 +22,9 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/services-context.xml</param-value>
+        <param-value>
+            /WEB-INF/services-context.xml
+            /WEB-INF/persistance-context.xml
+        </param-value>
     </context-param>
 </web-app>
