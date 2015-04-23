@@ -24,15 +24,11 @@ public class FunnyCatsService {
     @Autowired
     private DataSource dataSource;
 
-    private List<FunnyCat> funnyCats = new ArrayList<FunnyCat>()/* {{
-        add(new FunnyCat("simon", "one.gif", null));
-        add(new FunnyCat("lucky", "two.gif", null));
-        add(new FunnyCat("tom", "three.gif", null));
-    }}*/;
+//    private List<FunnyCat> funnyCats = new ArrayList<FunnyCat>();
 
     public FunnyCat getFunnyCatByName(String name) {
         List<FunnyCat> cats = kittensDao.listKittens();
-        for (FunnyCat cat : funnyCats) {
+        for (FunnyCat cat : cats) {
             if (cat.getName().trim().toLowerCase().equals(name.toLowerCase())) {
                 return cat;
             }
@@ -42,7 +38,7 @@ public class FunnyCatsService {
 
     public void addNewFunnyCat(FunnyCat cat) {
 //        cat.setName(defaultKittenName);
-        funnyCats.add(cat);
+        //funnyCats.add(cat);
         kittensDao.saveKitten(cat);
 //        Connection connection = null;
 //        Statement statement = null;
@@ -67,11 +63,12 @@ public class FunnyCatsService {
 //        }
     }
 
-    public int getFunnyCatCount() {
-        return funnyCats.size();
-    }
+//    public int getFunnyCatCount() {
+//        return funnyCats.size();
+//    }
 
     public FunnyCat[] getAllCatsAsArray() {
-        return funnyCats.toArray(new FunnyCat[funnyCats.size()]);
+        List<FunnyCat> cats = kittensDao.listKittens();
+        return cats.toArray(new FunnyCat[cats.size()]);
     }
 }
