@@ -3,15 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="com.springapp.persistance"/>
 
-    <jee:jndi-lookup id="defaultKittenName" expected-type="java.lang.String" jndi-name="java:comp/env/defaultKittenName"/>
+    <jee:jndi-lookup id="defaultKittenName" expected-type="java.lang.String"
+                     jndi-name="java:comp/env/defaultKittenName"/>
 
-    <jee:jndi-lookup id="jdbcDriverClassName" expected-type="java.lang.String" jndi-name="java:comp/env/jdbcDriverClassName"/>
+    <jee:jndi-lookup id="jdbcDriverClassName" expected-type="java.lang.String"
+                     jndi-name="java:comp/env/jdbcDriverClassName"/>
 
     <jee:jndi-lookup id="dbUrl" expected-type="java.lang.String" jndi-name="java:comp/env/dbUrl"/>
 
@@ -29,5 +35,37 @@
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource"/>
     </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>FunnyCat.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="userServicePointCut" expression="execution(* com.springapp.services.*Service.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="userServicePointCut"/>
+    </aop:config>
+
+    <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
 
 </beans>
