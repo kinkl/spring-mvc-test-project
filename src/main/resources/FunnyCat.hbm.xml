@@ -5,9 +5,12 @@
 
 <hibernate-mapping>
     <class name="com.springapp.model.FunnyCat" table="cats">
-        <id column="name" name="name" type="java.lang.String">
-            <generator class="native" />
+        <id column="id" name="id" type="java.lang.Integer">
+            <generator class="sequence">
+                <param name="sequence">cats_seq</param>
+            </generator>
         </id>
+        <property column="name" name="name" type="java.lang.String" />
         <property column="filename" name="filename" type="java.lang.String" />
         <!--<property column="password" name="password" type="java.lang.String" />
         <property column="fullname" name="fullName" type="java.lang.String" />

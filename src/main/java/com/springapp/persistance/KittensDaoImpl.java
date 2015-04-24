@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Кирилл Кин
@@ -20,7 +18,7 @@ import java.util.Map;
 
 public class KittensDaoImpl implements KittensDao {
     private static final String INSERT_SQL = "INSERT INTO cats(name, filename) VALUES (?, ?)";
-    private static final String SELECT_ALL_SQL = "SELECT name, filename FROM cats";
+    private static final String SELECT_ALL_SQL = "SELECT id, name, filename FROM cats";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -39,7 +37,7 @@ public class KittensDaoImpl implements KittensDao {
         }, new RowMapper<FunnyCat>() {
             @Override
             public FunnyCat mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new FunnyCat(resultSet.getString(1), resultSet.getString(2));
+                return new FunnyCat(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
             }
         });
 //        List<Map<String, Object>> fields = jdbcTemplate.queryForList("SELECT * FROM cats");
