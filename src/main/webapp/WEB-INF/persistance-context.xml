@@ -95,4 +95,8 @@
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
 
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
 </beans>
