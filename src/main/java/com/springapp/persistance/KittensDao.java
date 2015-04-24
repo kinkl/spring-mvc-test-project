@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public interface KittensDao {
+
     void saveKitten(FunnyCat funnyCat);
     List<FunnyCat> listKittens();
 }

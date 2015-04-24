@@ -57,8 +57,8 @@ public class HomeController {
         }
         if (image != null && !image.isEmpty() && image.getContentType().equals("image/jpeg")) {
             String relative = "resources/" + image.getOriginalFilename();
-            String absolute = "C:/Users/Kin/IdeaProjects/spring-mvc-test-project/src/main/webapp/" + relative;
-//            String absolute = "C:/projects/educational_projects/spring-mvc-test-project/src/main/webapp/" + relative;
+//            String absolute = "C:/Users/Kin/IdeaProjects/spring-mvc-test-project/src/main/webapp/" + relative;
+            String absolute = "C:/projects/educational_projects/spring-mvc-test-project/src/main/webapp/" + relative;
             File f = new File(absolute);
             try {
                 FileUtils.writeByteArrayToFile(f, image.getBytes());
