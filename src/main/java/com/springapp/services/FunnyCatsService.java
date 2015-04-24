@@ -42,7 +42,7 @@ public class FunnyCatsService {
     public void addNewFunnyCat(FunnyCat cat) {
 //        cat.setName(defaultKittenName);
         //funnyCats.add(cat);
-        jpaRepositoryKittenDao.save(cat); //kittensDao.saveKitten(cat);
+        /*jpaRepositoryKittenDao.save(cat);*/kittensDao.saveKitten(cat);
 //        Connection connection = null;
 //        Statement statement = null;
 //        try {
